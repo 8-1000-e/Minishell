@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:50:29 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 15:18:59 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:13:29 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	process_exec(t_data *data, int i, int *pids, int pipe_fd[2])
 			if (!data->cmd_list[i].error && data->cmd_list[i].path)
 				execve(data->cmd_list[i].path,
 					data->cmd_list[i].cmd, data->env);
-			reset_data_here(data);
+			exit(127);
 		}
 	}
 }

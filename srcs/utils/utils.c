@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 11:00:32 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 13:57:13 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:57:56 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,24 @@
 void	exit_error(t_data *data, char *msg)
 {
 	reset_data_here(data);
-	ft_printf(2, BOLD RED"/!\\ " BOLD BEIGE "%s!\n"RESET, msg);
+	if (msg)
+		ft_printf(2, BOLD RED"/!\\ " BOLD BEIGE "%s!\n"RESET, msg);
 	exit(2);
+}
+
+char	*relatif_cmd(char *str)
+{
+	char	*path;
+	char	p[1024];
+
+	getcwd(p, sizeof(p));
+	str += 3;
+	while (p[ft_strlen(p) - 1] != '/')
+		p[ft_strlen(p) - 1] = '\0';
+	path = ft_strjoin(p, str);
+	if (!path)
+		exit_error(NULL, "failed malloc");
+	return (path);
 }
 
 char	*absolute_path(t_data *data, int j)
@@ -25,12 +41,17 @@ char	*absolute_path(t_data *data, int j)
 	char		*cmd;
 
 	cmd = data->cmd_list[j].cmd[0];
-	if (ft_strncmp(cmd, "./", 2) == 0)
+	if (!ft_strncmp(cmd, "../", 3))
+	{
+		if (stat(relatif_cmd(cmd), &sb) == 0 && (sb.st_mode & S_IXUSR))
+			return (ft_strdup(relatif_cmd(cmd)));
+	}
+	if (!ft_strncmp(cmd, "./", 2))
 	{
 		if (stat(cmd, &sb) == 0 && (sb.st_mode & S_IXUSR))
 			return (ft_strdup(cmd));
 	}
-	if (cmd[0] == '/')
+	if (cmd[0] == '/' || cmd[ft_strlen(cmd) - 1] == '/')
 	{
 		if (stat(cmd, &sb) == 0 && (sb.st_mode & S_IXUSR))
 			return (ft_strdup(cmd));

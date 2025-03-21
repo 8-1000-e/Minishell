@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:46:21 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 13:46:38 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:01:04 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	check_for_dir(t_data *data, int i)
 		valid = S_ISDIR(path_stat.st_mode);
 	if (valid)
 		put_exit_code(data, i, 1);
-	else if (data->cmd_list[i].cmd[0][0] == '/'
-		|| (data->cmd_list[i].cmd[0][0] && data->cmd_list[i].cmd[0][1] == '/'))
+	else if ((data->cmd_list[i].cmd[0][0] == '/'
+		|| (data->cmd_list[i].cmd[0][0] && data->cmd_list[i].cmd[0][1] == '/')))
 	{
-		if (access(data->cmd_list[i].path, F_OK) == -1)
+		if (data->cmd_list[i].path && access(data->cmd_list[i].path, F_OK)
+		== -1)
 		{
 			ft_printf(2, BOLD RED"/!\\ "
 				BOLD BEIGE
@@ -75,6 +76,7 @@ void	check_exec_error(t_data *data)
 		else if (data->cmd_list[i].cmd[0][0] == '|')
 			continue ;
 		else if (!ft_strncmp(data->cmd_list[i].cmd[0], "./", 2)
+			&& data->cmd_list[i].path
 			&& access(data->cmd_list[i].path, F_OK) == -1)
 			print_error(0, data->cmd_list[i].cmd[0]);
 		else if (!data->cmd_list[i].path

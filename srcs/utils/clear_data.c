@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 08:18:34 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:05:35 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:58:15 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	free_cmd_here(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->cmd_list[i].cmd)
+	while (data->cmd_list && data->cmd_list[i].cmd)
 	{
 		ft_free_tab(data->cmd_list[i].cmd);
 		dh_free(data->cmd_list[i++].path);
