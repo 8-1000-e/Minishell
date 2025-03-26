@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:48:42 by npalissi          #+#    #+#             */
-/*   Updated: 2025/03/17 16:09:07 by npalissi         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:10:03 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static char	*ms_split_env_value(char *str, int i)
 {
 	char	*value;
 
+	if (str[i] == '+')
+		i++;
 	if (!str[i + 1])
 	{
 		value = ft_strdup("");
@@ -38,7 +40,7 @@ char	**ms_split_env(char *str)
 	if (!tab)
 		return (0);
 	i = 0;
-	while (str[i] && str[i] != '=')
+	while (str[i] && !(str[i] == '+' && str[i + 1] == '=') && (str[i] != '='))
 		i++;
 	tab[0] = ft_substr(str, 0, i);
 	if (!tab[0])
@@ -81,4 +83,17 @@ t_env	*ms_get_node_by_key(t_data *data, char *key)
 	if (tmp)
 		return (tmp);
 	return (0);
+}
+
+int	ms_create_or_edit(t_data *data, char *key, char *value, char *str)
+{
+	if (ms_get_node_by_key(data, key))
+	{
+		if (!ms_edit_env_lst(data, key, value, str))
+			return (0);
+	}
+	else
+		if (!ms_new_var(&data->env_list, key, value, str))
+			return (0);
+	return (1);
 }

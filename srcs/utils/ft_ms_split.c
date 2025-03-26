@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:13:37 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/11 12:56:31 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:30:06 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	next_w(char **str, int *iq, int *idq)
 			*iq = 1;
 			break ;
 		}
-		if (s[i] != ' ' && !*idq && !*iq)
+		if (!ft_iw(s[i]) && !*idq && !*iq)
 			break ;
 		i++;
 	}
@@ -81,7 +81,7 @@ char	*dup_char(char c, int size)
 	return (dup);
 }
 
-char	**ft_ms_split(char *str, int *quote_pb)
+char	**ft_ms_split(t_data data, char *str, int *quote_pb)
 {
 	char	**tab;
 	char	*word;
@@ -94,7 +94,12 @@ char	**ft_ms_split(char *str, int *quote_pb)
 	word = NULL;
 	*quote_pb = check_quote(str);
 	if (!*quote_pb)
+	{
+		str = replace_var_env(str, data);
+		if (str && !*str)
+			*quote_pb = 2;
 		tab = split(word, idq, iq, str);
+	}
 	tab = manage_dir(tab, '>');
 	tab = manage_dir(tab, '<');
 	return (tab);

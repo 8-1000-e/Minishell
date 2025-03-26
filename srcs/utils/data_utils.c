@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 13:09:55 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 14:48:03 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:02:26 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,20 @@ void	delete_cmd(t_data *data, int i)
 void	handler_var_env(t_data *data)
 {
 	int		i;
+	int		j;	
 	char	*value_epur;
 
+	j = 0;
 	value_epur = NULL;
-	i = 1;
-	while (data->cmd_list[0].cmd[i])
+	while (data->cmd_list[j].cmd)
 	{
-		value_epur = build_var_env(data->cmd_list[0].cmd[i],*data);
-		data->cmd_list[0].cmd[i++] = value_epur;
+		i = 0;
+		while (data->cmd_list[j].cmd[i])
+		{
+			value_epur = epurstr(data->cmd_list[j].cmd[i]);
+			data->cmd_list[j].cmd[i++] = value_epur;
+		}
+		j++;
 	}
 }
 
@@ -75,8 +81,8 @@ void	fill_data(t_data *data, char **full_line, char *line)
 	fill_command(data, full_line);
 	sort_cmd(data);
 	dh_free(full_line);
-	fill_paths(data);
 	handler_var_env(data);
+	fill_paths(data);
 	data->redir_fd[0] = 0;
 	data->redir_fd[1] = 0;
 	data->line = line;

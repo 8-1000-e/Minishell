@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:03:03 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 14:47:37 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:27:40 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_exit(t_data *data, int (*error)[2], int (*exit_code)[2], int type)
 	else if (type == 2)
 	{
 		data->exit = 1;
-		printf(BOLD RED "Exit\n" RESET);
+		ft_printf(2, BOLD RED "Exit\n" RESET);
 		return ;
 	}
 }
@@ -67,11 +67,11 @@ void	make_exit(t_data *data, int msg_code)
 	else if (msg_code == 2)
 	{
 		data->exit = 1;
-		printf(BOLD RED "Exit\n" RESET);
+		ft_printf(2, BOLD RED "Exit\n" RESET);
 	}
 	else if (msg_code == 3)
 	{
-		printf(RED "Exit\n" RESET);
+		ft_printf(2, RED "Exit\n" RESET);
 		ft_printf(2, BOLD RED "/!\\ "
 			BOLD BEIGE "Shellokitty: exit: %s: numeric argument required\n"
 			RESET, data->cmd_list[0].cmd[1]);
@@ -90,7 +90,7 @@ void	make_all_exit(t_data *data, int msg_code, int exit_code[2])
 	}
 	else if (msg_code == 5)
 	{
-		printf(RED "Exit\n" RESET);
+		ft_printf(2, RED "Exit\n" RESET);
 		data->exit = 1;
 		data->exit_status = exit_code[0];
 		return ;

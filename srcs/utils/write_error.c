@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:46:21 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/21 16:27:05 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:07:03 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_for_dir(t_data *data, int i)
 		|| (data->cmd_list[i].cmd[0][0] && data->cmd_list[i].cmd[0][1] == '/')))
 	{
 		if (data->cmd_list[i].path && access(data->cmd_list[i].path, F_OK)
-		== -1)
+			== -1)
 		{
 			ft_printf(2, BOLD RED"/!\\ "
 				BOLD BEIGE
@@ -68,6 +68,21 @@ void	print_error(t_data *data, int code, char *str)
 			"Shellokitty: %s permision denied\n" RESET, str);
 }
 
+int	check_file(t_cmd cmd)
+{
+	struct stat	info;
+
+	if (cmd.path)
+	{
+		stat(cmd.path, &info);
+		if (S_ISDIR(info.st_mode))
+			return (1);
+		if (!access(cmd.path, F_OK))
+			return (1);
+	}
+	return (0);
+}
+
 void	check_exec_error(t_data *data)
 {
 	int	i;
@@ -75,13 +90,17 @@ void	check_exec_error(t_data *data)
 	i = -1;
 	while (data->cmd_list[++i].cmd)
 	{
-		if (data->cmd_list[i].builtin)
+		if (data->cmd_list[i].builtin || in_builtin(data->cmd_list[i].cmd[0]))
 			continue ;
 		if (check_for_dir(data, i))
 			data->exit_status = 126;
 		else if (data->cmd_list[i].cmd[0][0] == '|')
 			continue ;
-		else if (!ft_strncmp("./", data->cmd_list[i].cmd[0], 2) || data->cmd_list[i].cmd[0][0] == '/' || data->cmd_list[i].cmd[0][ft_strlen(data->cmd_list[i].cmd[0]) -1] == '/')
+		else if ((!ft_strncmp("./", data->cmd_list[i].cmd[0], 2)
+				|| data->cmd_list[i].cmd[0][0] == '/'
+			|| data->cmd_list[i].cmd[0]
+			[ft_strlen(data->cmd_list[i].cmd[0]) - 1]
+			== '/') && !check_file(data->cmd_list[i]))
 			print_error(data, 0, data->cmd_list[i].cmd[0]);
 		else if (!data->cmd_list[i].path
 			&& !(ft_strchr("<>", data->cmd_list[i].cmd[0][0])))

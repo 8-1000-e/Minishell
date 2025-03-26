@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 13:56:25 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/21 14:22:08 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:28:31 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,26 @@ void	fill_paths(t_data *data)
 {
 	int		j;
 	char	*cmd_name;
+	char	*tmp;
 
+	tmp = NULL;
 	j = -1;
 	while (data->cmd_list[++j].cmd)
 	{
+		if (!*data->paths)
+		{
+			tmp = data->cmd_list[j].cmd[0];
+			data->cmd_list[j].cmd[0] = ft_strjoin("./",
+					data->cmd_list[j].cmd[0]);
+		}
 		assign_absolute_path(data, j);
 		if (data->cmd_list[j].path)
 			continue ;
+		if (tmp)
+		{
+			data->cmd_list[j].cmd[0] = tmp;
+			tmp = NULL;
+		}
 		cmd_name = data->cmd_list[j].cmd[0];
 		data->cmd_list[j].path = find_valid_path(data->paths, cmd_name);
 	}
@@ -75,7 +88,7 @@ int	no_cmd(char *str)
 	i = 0;
 	while (str && str[i])
 	{
-		if (!ft_iswhitespace(str[i]))
+		if (!ft_iw(str[i]))
 			break ;
 		i++;
 	}
@@ -92,20 +105,22 @@ int	fill_line_data(t_data *data, char *line)
 	i = 0;
 	collect_data(data);
 	data->here_doc_name = NULL;
+	data->line = line;
 	if (!line || no_cmd(line))
 		return (1);
-	full_line = ft_ms_split(line, &i);
-	if (i)
+	full_line = ft_ms_split(*data, line, &i);
+	if (i == 1)
 	{
 		add_history(line);
 		data->exit_status = 2;
 		ft_printf(2, BOLD RED"/!\\ " BOLD BEIGE"Quote error !\n" RESET);
 		ft_free_tab(full_line);
-		exit_error(data, NULL);
+		exit_error(NULL, NULL);
 	}
+	if (i == 2)
+		return (i);
 	if (!full_line)
 		exit_error(data, "failed malloc");
-	else
-		fill_data(data, full_line, line);
+	fill_data(data, full_line, line);
 	return (i);
 }

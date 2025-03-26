@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:43:26 by npalissi          #+#    #+#             */
-/*   Updated: 2025/03/19 13:38:22 by npalissi         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:06:25 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
 
-t_env	*ms_new_var(t_env *list, char *key, char *value, char *str)
+t_env	*ms_new_var(t_env **list, char *key, char *value, char *str)
 {
 	t_env	*new_var;
-	t_env	*tmp;
 
 	if (!str)
 		return (0);
@@ -31,13 +30,8 @@ t_env	*ms_new_var(t_env *list, char *key, char *value, char *str)
 	new_var->value = value;
 	new_var->str = str;
 	new_var->next = NULL;
-	if (!list)
-		return (new_var);
-	tmp = list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_var;
-	return (list);
+	ms_add_lst(list, new_var);
+	return (*list);
 }
 
 int	ms_size_lst_env(t_data *data, int is_export)
@@ -91,7 +85,7 @@ t_env	*ms_setup_lst_env(t_data *data, char **env)
 			ms_free_lst_env(data);
 			return (0);
 		}
-		lst = ms_new_var(lst, tab[0], tab[1], ft_strdup(env[i]));
+		lst = ms_new_var(&lst, tab[0], tab[1], ft_strdup(env[i]));
 		dh_free(tab);
 		i++;
 	}

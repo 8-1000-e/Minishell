@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:57:26 by npalissi          #+#    #+#             */
-/*   Updated: 2025/03/19 13:37:10 by npalissi         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:55:59 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	cd(t_data *data, char **cmd)
 	if (exit_code == -1)
 		return (-1);
 	if (!exit_code)
-		return (0);
+		return (1);
 	return (reload_pwd(data));
 }

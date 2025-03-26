@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:06:28 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 15:16:00 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:35:51 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_error(t_data *data, int i, int j, char *redir)
 	int	error;
 
 	error = 0;
-	if (!data->cmd_list[i].path)
+	if (!data->cmd_list[i].path && !data->cmd_list[i].builtin)
 		error = 127;
 	else if (ft_strcmp(redir, "<"))
 		check_all_error(data, i, j, error);

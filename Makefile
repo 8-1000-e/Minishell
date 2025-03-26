@@ -6,7 +6,7 @@
 #    By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/18 11:41:12 by edubois-          #+#    #+#              #
-#    Updated: 2025/03/21 11:44:42 by edubois-         ###   ########.fr        #
+#    Updated: 2025/03/26 14:05:57 by edubois-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS 			=	srcs/main.c\
 					srcs/cmd/exit.c\
 					srcs/cmd/exit_utils.c\
 					srcs/utils/exec_utils.c\
+					srcs/cmd/export/export_lst_utils.c\
 					srcs/utils/mn_promp.c\
 					srcs/parsing/variable_environment/quote_handler.c\
 					srcs/parsing/variable_environment/quote_var_utils.c\
@@ -59,6 +60,7 @@ SRCS 			=	srcs/main.c\
 					srcs/cmd/export/export_lst.c\
 					srcs/cmd/export/export_free_array.c\
 					srcs/cmd/unset.c\
+					srcs/exec/make_all_builtins.c\
 
 OBJS 			:= $(SRCS:.c=.o)
 

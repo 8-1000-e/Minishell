@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:50:29 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/21 14:13:29 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:48:24 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,30 @@ int	*init_pids(t_data *data)
 
 void	process_exec(t_data *data, int i, int *pids, int pipe_fd[2])
 {
-	if (!make_builtin(data, i))
+	if (!data->cmd_list[i].path && !in_builtin(data->cmd_list[i].cmd[0]))
+		return ;
+	if (!data->cmd_list[i + 1].cmd && make_builtin(data, i, pipe_fd))
+		return ;
+	pids[i] = fork();
+	if (pids[i] == 0)
 	{
-		if (data->cmd_list[i].path == NULL)
-			return ;
-		pids[i] = fork();
-		if (pids[i] == 0)
+		dh_free(pids);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		manage_exec_dir(data, i);
+		if (!data->cmd_list[i + 1].cmd)
 		{
-			dh_free(pids);
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			manage_exec_dir(data, i);
-			if (!data->cmd_list[i + 1].cmd)
-			{
-				if (pipe_fd[0] > 2)
-					close(pipe_fd[0]);
-				pipe_fd[1] = STDOUT_FILENO;
-			}
-			manage_pipe(data, pipe_fd);
-			if (!data->cmd_list[i].error && data->cmd_list[i].path)
-				execve(data->cmd_list[i].path,
-					data->cmd_list[i].cmd, data->env);
-			exit(127);
+			if (pipe_fd[0] > 2)
+				close(pipe_fd[0]);
+			pipe_fd[1] = STDOUT_FILENO;
 		}
+		manage_pipe(data, pipe_fd);
+		if (make_builtin(data, i, pipe_fd))
+			exit(data->exit_status);
+		if (!data->cmd_list[i].error)
+			execve(data->cmd_list[i].path,
+				data->cmd_list[i].cmd, data->env);
+		exit(127);
 	}
 }
 

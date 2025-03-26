@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:58:32 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 14:48:32 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:04:18 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,18 @@ void	dh_free_all(void) __attribute__((destructor));
 void	dh_free(void *ptr);
 void	*dh_malloc(size_t size);	
 int		dh_add_ptr(void *ptr);
+
 typedef struct s_list
 {
 	char			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_index
+{
+	int		i;
+	int		start;
+}	t_index;
 
 int		ft_atoi(const char *s, int *o);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
@@ -77,7 +84,7 @@ void	ft_lstclear(t_list **lst, void (*del)(int));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(int));
 int		ft_issign(int c);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_iswhitespace(int c);
+int		ft_iw(int c);
 int		count_word(char *str, char c);
 void	ft_free_tab(char **tab);
 int		ft_arraylen(char **array);

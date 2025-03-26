@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:56:16 by npalissi          #+#    #+#             */
-/*   Updated: 2025/03/20 15:00:57 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:57:11 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	main(int arg_c, char **arg_v, char **env)
 		if (!data.exit)
 			rl = bt_prompt(&data);
 	}
-	if (!data.exit)
-		exit(130);
 	exit(data.exit_status % 256);
 	(void)arg_c;
 	(void)arg_v;

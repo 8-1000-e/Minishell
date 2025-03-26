@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:10:52 by edubois-          #+#    #+#             */
-/*   Updated: 2025/02/06 16:29:07 by npalissi         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:53:55 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ static int	has_flag(char *str, int index_flag, int index)
 	return (!*str);
 }
 
-void	echo(char **cmds)
+int	echo(char **cmds)
 {
 	int		index_flag;
 	char	**save_cmds;
 
 	save_cmds = cmds;
 	index_flag = 0;
-	if (!ft_strcmp(*cmds, "echo"))
-		return ;
 	while (*++cmds)
 	{
 		if (has_flag(*cmds, index_flag, cmds - save_cmds))
@@ -44,6 +42,7 @@ void	echo(char **cmds)
 	}
 	if (!index_flag)
 		write(1, "\n", 1);
+	return (0);
 }
 
 // int	main(int c, char **v)

@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 09:03:31 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 14:28:47 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:48:40 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,18 @@ int	nb_cmd(t_data data)
 	while (data.cmd_list[i++].cmd)
 		c++;
 	return (c);
+}
+
+int	in_builtin(char *cmd)
+{
+	static char	*builtin[7] = {"echo", "cd", "pwd",
+		"export", "unset", "env", "exit"};
+	int			i;
+
+	i = 0;
+	while (builtin[i] && !ft_strcmp(builtin[i], cmd))
+		i++;
+	if (builtin[i])
+		return (1);
+	return (0);
 }

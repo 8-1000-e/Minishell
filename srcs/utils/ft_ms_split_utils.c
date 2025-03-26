@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ms_split_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edubois- <edubois-@student.42angouleme>    +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:00:01 by edubois-          #+#    #+#             */
-/*   Updated: 2025/02/26 22:43:57 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:04:18 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	add_quoted_word(char **word, char **str, int *idq, int *iq)
 		*s[1]++ = '\'';
 	else
 		*s[1]++ = '"';
-	while (s[0][i] && (*idq || *iq || (s[0][i] != ' ' && s[0][i + 1] != '|')))
+	while (s[0][i] && (*idq || *iq || (!ft_iw(s[0][i]) && s[0][i + 1] != '|')))
 	{
 		*s[1]++ = s[0][i];
 		if (s[0][i] == '"' && *iq == 0 && ((i == 0)
@@ -84,7 +84,7 @@ void	finish_to_add_word(char *s, char **w, int *i, int iq[2])
 			iq[0] = 0;
 		(*i)++;
 	}
-	while (s[*i] && s[*i] != ' ' && s[*i] != '|')
+	while (s[*i] && !ft_iw(s[*i]) && s[*i] != '|')
 	{
 		**w = s[*i];
 		(*w)++;
@@ -94,7 +94,7 @@ void	finish_to_add_word(char *s, char **w, int *i, int iq[2])
 
 void	add_word(char *s, char **w, int *i, int iq[2])
 {
-	while (s[*i] && !iq[0] && !iq[1] && s[*i] != ' ' && s[*i] != '|')
+	while (s[*i] && !iq[0] && !iq[1] && !ft_iw(s[*i]) && s[*i] != '|')
 	{
 		**w = s[*i];
 		(*w)++;

@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_lst_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 15:51:12 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/25 15:56:18 by edubois-         ###   ########.fr       */
+/*   Created: 2025/03/26 13:57:53 by npalissi          #+#    #+#             */
+/*   Updated: 2025/03/26 14:01:10 by npalissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "../../../headers/minishell.h"
 
-void	cmd_env(t_data *data)
+void	ms_add_lst(t_env **lst, t_env *node)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (data->env[i])
-		printf("%s\n", data->env[i++]);
+	tmp = *lst;
+	if (!*lst)
+	{
+		*lst = node;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
 }

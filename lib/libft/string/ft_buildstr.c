@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_buildstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npalissi <npalissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 11:23:14 by npalissi          #+#    #+#             */
-/*   Updated: 2025/02/25 11:51:22 by npalissi         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:36:46 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,49 @@ static char	*ft_get_arg(char c_type, va_list args)
 	return ("");
 }
 
+static int	process_specifier(char *str, t_index *idx, char **build
+				, va_list args)
+{
+	char	*arg;
+	char	*segment;
+
+	arg = ft_get_arg(str[idx->i + 1], args);
+	segment = ft_substr(str, idx->start, idx->i - idx->start);
+	*build = ft_strjoinfree(*build, segment, FREE_ALL);
+	if (!*build)
+		return (0);
+	*build = ft_strjoinfree(*build, arg, FREE_ALL);
+	if (!*build)
+		return (0);
+	idx->i++;
+	idx->start = idx->i + 1;
+	idx->i++;
+	return (1);
+}
+
 char	*ft_buildstr(char *str, ...)
 {
-	int		start;
-	int		i;
+	t_index	idx;
 	char	*build;
-	char	*arg;
 	va_list	args;
 
 	build = ft_strdup("");
 	if (!build)
-		return (0);
+		return (NULL);
 	va_start(args, str);
-	i = 0;
-	start = 0;
-	while (*(str + i))
+	idx.i = 0;
+	idx.start = 0;
+	while (str[idx.i])
 	{
-		if (*(str + i) == '%' && *(str + i + 1))
+		if (str[idx.i] == '%' && str[idx.i + 1])
 		{
-			arg = ft_get_arg(*(str + i + 1), args);
-			build = ft_strjoinfree(build,
-					ft_substr(str, start, i - start), FREE_ALL);
-			build = ft_strjoinfree(build, arg, FREE_ALL);
-			if (!build)
-				return (0);
-			i++;
-			start = i + 1;
+			if (!process_specifier(str, &idx, &build, args))
+				break ;
 		}
-		i++;
+		else
+			idx.i++;
 	}
-	build = ft_strjoinfree(build, ft_substr(str, start, i), FREE_ALL);
+	build = ft_strjoinfree(build, ft_substr(str, idx.start, idx.i), FREE_ALL);
 	va_end(args);
 	return (build);
 }

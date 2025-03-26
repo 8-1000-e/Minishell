@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:09:23 by npalissi          #+#    #+#             */
-/*   Updated: 2025/03/20 11:45:40 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:37:06 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*get_env(char *str, t_data data)
 	else
 		env = ms_get_env(data, str);
 	dh_free(str);
+	if (!env)
+		return ("");
 	return (env);
 }
 

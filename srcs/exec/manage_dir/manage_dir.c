@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:19:06 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/19 15:23:08 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:48:12 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	handle_redirection_removal(t_data *data, int i, int j)
 	h = save_j + 1;
 	while (data->cmd_list[i].cmd[j])
 		data->cmd_list[i].cmd[j++] = data->cmd_list[i].cmd[h++];
-	dh_free(save_str[0]);
-	dh_free(save_str[1]);
+	if (!data->cmd_list[i].builtin)
+	{
+		dh_free(save_str[0]);
+		dh_free(save_str[1]);
+	}
 }
 
 void	remove_redirections_from_cmd(t_data *data, int i)
