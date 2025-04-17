@@ -6,7 +6,7 @@
 /*   By: edubois- <edubois-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:32:17 by edubois-          #+#    #+#             */
-/*   Updated: 2025/03/20 14:47:19 by edubois-         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:44:36 by edubois-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	clean_exit_here_doc(t_data *data, char *lim, int fd)
 	reset_data_here(data);
 	exit(0);
 }
+
 
 void	write_fd(int fd, char *line, char *lim, t_data *data)
 {
